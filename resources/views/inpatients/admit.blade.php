@@ -5,12 +5,14 @@
 
 <x-app-layout>
     <x-slot name="header">
-        <h2 style="font-size: 24px; font-weight: bold; color: #f7fafc;">Admit Patient: {{ $inpatient->patient->full_name ?? 'N/A' }}</h2>
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-dark-800 leading-tight">
+            Admit Patient: {{ $inpatient->patient->full_name ?? 'N/A' }}
+        </h2>
     </x-slot>
 
-    <div style="padding: 20px; max-width: 600px; margin: 0 auto;">
+    <div class="py-6 px-4 max-w-xl mx-auto">
         @if ($errors->any())
-            <div style="color: red; margin-bottom: 15px;">
+            <div class="text-red-600 mb-4 text-sm">
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>- {{ $error }}</li>
@@ -21,52 +23,54 @@
 
         <form method="POST" action="{{ route('inpatients.admit', $inpatient->inpatientID) }}">
             @csrf
-            @method('PUT') {{-- Use PUT for updating an existing record --}}
+            @method('PUT')
 
-            <p style="color: #cbd5e0; margin-bottom: 15px;">
+            <p class="text-gray-500 mb-4">
                 Patient on Waitlist since: {{ \Carbon\Carbon::parse($inpatient->datePlacedOnWaitlist)->format('Y-m-d') }}
             </p>
 
-            <label style="color: #cbd5e0;">Ward:</label><br>
-            <select name="wardID" required style="width: 100%; padding: 8px; margin-bottom: 10px; background-color: #374151; border: 1px solid #4b5563; color: #e5e7eb; border-radius: 0.375rem;">
+            {{-- Ward --}}
+            <label class="block font-medium mb-1">Ward</label>
+            <select name="wardID" required class="w-full px-3 py-2 mb-4 border bg-white text-black rounded">
                 <option value="">-- Select Ward --</option>
                 @foreach ($wards as $ward)
                     <option value="{{ $ward->wardID }}" {{ old('wardID', $inpatient->wardID) == $ward->wardID ? 'selected' : '' }}>
                         {{ $ward->wardName }}
                     </option>
                 @endforeach
-            </select><br>
-            <x-input-error :messages="$errors->get('wardID')" class="mt-1" /><br>
+            </select>
+            <x-input-error :messages="$errors->get('wardID')" class="mt-1" />
 
-            <label style="color: #cbd5e0;">Bed Number (optional):</label><br>
-            <select name="bedID" style="width: 100%; padding: 8px; margin-bottom: 10px; background-color: #374151; border: 1px solid #4b5563; color: #e5e7eb; border-radius: 0.375rem;">
+            {{-- Bed Number --}}
+            <label class="block font-medium mb-1">Bed Number (optional)</label>
+            <select name="bedID" class="w-full px-3 py-2 mb-4 border bg-white text-black rounded">
                 <option value="">None</option>
                 @foreach ($beds as $bed)
-                    {{-- You might want to filter beds by ward here --}}
                     <option value="{{ $bed->bedID }}" {{ old('bedID', $inpatient->bedID) == $bed->bedID ? 'selected' : '' }}>
                         {{ $bed->bedID }} ({{ $bed->ward->wardName ?? 'Unknown Ward' }})
                     </option>
                 @endforeach
-            </select><br>
-            <x-input-error :messages="$errors->get('bedID')" class="mt-1" /><br>
+            </select>
+            <x-input-error :messages="$errors->get('bedID')" class="mt-1" />
 
-
-            <label style="color: #cbd5e0;">Date Admitted In Ward:</label><br>
+            {{-- Date Admitted --}}
+            <label class="block font-medium mb-1">Date Admitted In Ward</label>
             <input type="date" name="dateAdmittedInWard" value="{{ $admittedDate }}" required
-                   style="width: 100%; padding: 8px; margin-bottom: 10px; background-color: #374151; border: 1px solid #4b5563; color: #e5e7eb; border-radius: 0.375rem;"><br>
-            <x-input-error :messages="$errors->get('dateAdmittedInWard')" class="mt-1" /><br>
+                   class="w-full px-3 py-2 mb-4 border bg-white text-black rounded">
+            <x-input-error :messages="$errors->get('dateAdmittedInWard')" class="mt-1" />
 
-            <label style="color: #cbd5e0;">Expected Days to Stay:</label><br>
+            {{-- Expected Stay --}}
+            <label class="block font-medium mb-1">Expected Days to Stay</label>
             <input type="number" name="expectedDaysToStay" value="{{ old('expectedDaysToStay', $inpatient->expectedDaysToStay) }}" min="1" required
-                   style="width: 100%; padding: 8px; margin-bottom: 20px; background-color: #374151; border: 1px solid #4b5563; color: #e5e7eb; border-radius: 0.375rem;"><br>
-            <x-input-error :messages="$errors->get('expectedDaysToStay')" class="mt-1" /><br>
+                   class="w-full px-3 py-2 mb-6 border bg-white text-black rounded">
+            <x-input-error :messages="$errors->get('expectedDaysToStay')" class="mt-1" />
 
-            {{-- These fields are NOT part of admission --}}
-            {{-- <input type="hidden" name="expectedLeave" value=""> --}}
-            {{-- <input type="hidden" name="actualLeave" value=""> --}}
-
-
-            <button type="submit" style="padding: 10px 20px; background-color: #22c55e; color: white; border: none; border-radius: 0.375rem; cursor: pointer;">Admit Patient</button>
+            {{-- Submit --}}
+            <div class="flex justify-center">
+                <button type="submit" class="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                    Admit Patient
+                </button>
+            </div>
         </form>
     </div>
 </x-app-layout>

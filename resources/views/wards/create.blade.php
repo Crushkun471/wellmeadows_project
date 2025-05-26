@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-dark-800 leading-tight">
             Register New Ward
         </h2>
     </x-slot>
@@ -28,27 +28,27 @@
                 <div class="grid grid-cols-2 gap-4 text-sm">
                     <div>
                         <label for="wardID" class="block font-medium">Ward ID</label>
-                        <input id="wardID" name="wardID" type="text" class="w-full border dark:bg-gray-700 rounded px-2 py-1" required>
+                        <input id="wardID" name="wardID" type="text" class="w-full border bg-white text-black rounded px-2 py-1" required>
                     </div>
                     <div>
                         <label for="wardName" class="block font-medium">Ward Name</label>
-                        <input id="wardName" name="wardName" type="text" class="w-full border dark:bg-gray-700 rounded px-2 py-1" required>
+                        <input id="wardName" name="wardName" type="text" class="w-full border bg-white text-black rounded px-2 py-1" required>
                     </div>
                     <div>
                         <label for="location" class="block font-medium">Location</label>
-                        <input id="location" name="location" type="text" class="w-full border dark:bg-gray-700 rounded px-2 py-1" required>
+                        <input id="location" name="location" type="text" class="w-full border bg-white text-black rounded px-2 py-1" required>
                     </div>
                     <div>
                         <label for="totalBeds" class="block font-medium">Total Beds</label>
-                        <input id="totalBeds" name="totalBeds" type="number" min="1" class="w-full border dark:bg-gray-700 rounded px-2 py-1" required>
+                        <input id="totalBeds" name="totalBeds" type="number" min="1" class="w-full border bg-white text-black rounded px-2 py-1" required>
                     </div>
                     <div>
                         <label for="telExtension" class="block font-medium">Telephone Extension</label>
-                        <input id="telExtension" name="telExtension" type="text" class="w-full border dark:bg-gray-700 rounded px-2 py-1" required>
+                        <input id="telExtension" name="telExtension" type="text" class="w-full border bg-white text-black rounded px-2 py-1" required>
                     </div>
                     <div>
                         <label for="staffID" class="block mb-2 font-semibold">Assign Staff</label>
-                        <select id="staffID" name="staffID" class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:text-gray-200">
+                        <select id="staffID" name="staffID" class="w-full border bg-white text-black rounded px-2 py-2">
                             <option value="">-- Select Staff --</option>
                             @foreach ($staff as $member)
                                 <option value="{{ $member->staffID }}" {{ old('staffID') == $member->staffID ? 'selected' : '' }}>
@@ -71,11 +71,7 @@
     <script>
         function toggleSection(id) {
             const section = document.getElementById(id);
-            if(section.classList.contains('hidden')) {
-                section.classList.remove('hidden');
-            } else {
-                section.classList.add('hidden');
-            }
+            section.classList.toggle('hidden');
         }
     </script>
 </x-app-layout>
